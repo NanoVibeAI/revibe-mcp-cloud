@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 
+import { authorizeMcpRequest } from "../auth/oauth.js";
 import { config } from "../config.js";
 import { type ToolName, toolDescriptors } from "../tools/catalog.js";
 import { executeTool } from "../tools/executor.js";
@@ -122,6 +123,20 @@ const handleRequest = async (request: JsonRpcRequest): Promise<JsonRpcSuccess | 
 export const registerMcpRoutes = async (app: FastifyInstance): Promise<void> => {
   app.post("/mcp", async (request, reply) => {
     const payload = request.body;
+
+    request.log.info(
+      {
+        headers: request.headers,
+        body: payload
+      },
+      "Incoming /mcp request"
+    );
+
+    const authorized = await authorizeMcpRequest(request, reply, payload);
+    console.log("Authorization result:", authorized);
+    if (!authorized) {
+      return;
+    }
 
     if (Array.isArray(payload)) {
       const results: Array<JsonRpcSuccess | JsonRpcError> = [];

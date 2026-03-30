@@ -5,6 +5,7 @@ import { config } from "./config.js";
 import { registerHealthRoutes } from "./routes/health.js";
 import { registerApiRoutes } from "./routes/api.js";
 import { registerMcpRoutes } from "./routes/mcp.js";
+import { registerOAuthMetadataRoutes } from "./routes/oauthMetadata.js";
 
 const buildServer = async () => {
   const app = Fastify({ logger: true });
@@ -16,6 +17,7 @@ const buildServer = async () => {
 
   await registerHealthRoutes(app);
   await registerApiRoutes(app);
+  await registerOAuthMetadataRoutes(app);
   await registerMcpRoutes(app);
 
   return app;
