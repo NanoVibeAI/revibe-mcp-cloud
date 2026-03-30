@@ -1,0 +1,43 @@
+{
+  "name": "discover_components",
+  "description": "Semantically discover relevant UI components with automatic default selection",
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "intent": {
+        "type": "string",
+        "minLength": 1,
+        "description": "User goal to match against component semantics, for example 'pricing section with annual toggle'."
+      },
+      "framework": {
+        "type": "string",
+        "description": "Optional framework filter. Omit to search across frameworks."
+      },
+      "tags": {
+        "type": "array",
+        "description": "Optional tag filters used to narrow results, for example ['dashboard', 'table'].",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "status": {
+        "type": "string",
+        "description": "Optional lifecycle filter such as draft or published."
+      },
+      "complexity": {
+        "type": "string",
+        "description": "Optional complexity filter such as low, medium, or high."
+      },
+      "limit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 50,
+        "default": 10,
+        "description": "Maximum number of results to return."
+      }
+    },
+    "required": ["intent"]
+  }
+}

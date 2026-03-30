@@ -1,0 +1,91 @@
+{
+  "name": "upload_component",
+  "description": "Upload standalone multi-file component bundle and receive review artifact specification",
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "component_intent": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Short natural-language summary of the component goal and expected behavior."
+      },
+      "target_framework": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Target UI framework/runtime, for example react, nextjs, vue, or svelte."
+      },
+      "constraints": {
+        "type": "string",
+        "description": "Optional hard requirements such as accessibility, layout limits, browser support, or banned libraries."
+      },
+      "style_system": {
+        "type": "string",
+        "description": "Optional styling approach, for example tailwind, css-modules, vanilla-css, styled-components."
+      },
+      "source": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Source bundle payload containing the entrypoint and all source files.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["bundle"],
+            "description": "Source transport type. Must be exactly 'bundle'."
+          },
+          "entrypoint": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Relative path of the main file inside source.files, for example src/index.tsx."
+          },
+          "files": {
+            "type": "array",
+            "minItems": 1,
+            "description": "List of source files included in this component bundle.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Relative file path within the bundle."
+                },
+                "content": {
+                  "type": "string",
+                  "description": "File content as UTF-8 text."
+                }
+              },
+              "required": ["path", "content"]
+            }
+          },
+          "dependencies": {
+            "type": "object",
+            "description": "Runtime dependency map of package name to version range.",
+            "additionalProperties": { "type": "string" },
+            "default": {}
+          },
+          "peer_dependencies": {
+            "type": "object",
+            "description": "Peer dependency map of package name to version range.",
+            "additionalProperties": { "type": "string" },
+            "default": {}
+          },
+          "dev_dependencies": {
+            "type": "object",
+            "description": "Development dependency map of package name to version range.",
+            "additionalProperties": { "type": "string" },
+            "default": {}
+          }
+        },
+        "required": ["type", "entrypoint", "files"]
+      },
+      "metadata": {
+        "type": "object",
+        "description": "Optional caller-defined metadata for traceability and routing.",
+        "additionalProperties": true
+      }
+    },
+    "required": ["component_intent", "target_framework", "source"]
+  }
+}

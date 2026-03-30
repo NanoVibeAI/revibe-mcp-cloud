@@ -1,0 +1,56 @@
+### Initialize
+POST http://localhost:8000/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {}
+}
+
+### Call tool list
+POST http://localhost:8000/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/list"
+}
+
+### Upload sample documents
+POST http://localhost:8000/mcp
+Content-Type: application/json
+
+{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+        "name": "upload_component",
+        "arguments": {
+            "component_intent": "Simple CTA Button",
+            "target_framework": "react",
+            "style_system": "tailwind",
+            "source": {
+                "type": "bundle",
+                "entrypoint": "src/Button.tsx",
+                "files": [
+                    {
+                        "path": "src/Button.tsx",
+                        "content": "import React from \"react\";\nexport function Button(){ return <button className=\"px-4 py-2 rounded bg-black text-white\">Buy</button>; }\n"
+                    }
+                ],
+                "dependencies": {
+                    "react": "^18.2.0"
+                },
+                "peer_dependencies": {},
+                "dev_dependencies": {}
+            },
+            "metadata": {
+                "tags": ["button", "cta"]
+            }
+        }
+    }
+}

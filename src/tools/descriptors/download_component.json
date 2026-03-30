@@ -1,0 +1,20 @@
+{
+  "name": "download_component",
+  "description": "Download component code, context, and dependencies",
+  "inputSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "component_id": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Unique component identifier returned by discovery/upload flows."
+      },
+      "version": {
+        "type": "string",
+        "description": "Optional explicit version identifier. Omit to use the default/current version."
+      }
+    },
+    "required": ["component_id"]
+  }
+}
